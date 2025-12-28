@@ -59,3 +59,5 @@ The repository is fully usable without any tooling. Viewers or CLI tools can be 
 
 ## License
 MIT (see `LICENSE`)
+
+Note: The project idea originates from Maik Hoffmann; this project was created in collaboration with ChatGPT, Codex, and all changes were made according to his instructions.
