@@ -1,5 +1,12 @@
 # SoftwareLogBook
 
+## Languages
+- English (default)
+- [Deutsch](readme/README.de.md)
+- [Español](readme/README.es.md)
+- [Français](readme/README.fr.md)
+- [日本語](readme/README.ja.md)
+
 SoftwareLogBook is a logbook for software systems using Markdown files with YAML frontmatter.
 
 ## Motivation and scope
