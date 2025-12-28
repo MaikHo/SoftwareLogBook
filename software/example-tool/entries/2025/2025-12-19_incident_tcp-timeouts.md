@@ -1,5 +1,5 @@
 ---
-id: "2025-12-19T03-12-00Z_incident_tcp-timeouts"
+id: "example-tool::2025-12-19T03-12-00Z_incident_tcp-timeouts"
 type: incident
 severity: critical
 occurredAt: "2025-12-19T03:12:00Z"

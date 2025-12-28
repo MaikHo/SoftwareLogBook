@@ -18,7 +18,7 @@ It is designed to be:
 ## Quick start
 1. Copy `templates/software.template.md` into `software/<softwareKey>/software.md`
 2. Add deployments under `software/<softwareKey>/deployments/`
-3. Add logbook entries under `software/<softwareKey>/entries/`
+3. Add logbook entries under `software/<softwareKey>/entries/<YYYY>/`
 
 ## Viewer tooling (optional)
 A future viewer can parse frontmatter metadata and render timelines, dashboards, and graphs.

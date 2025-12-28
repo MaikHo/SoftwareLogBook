@@ -1,4 +1,4 @@
-# SoftwareLogBook SPEC v0.1
+# SoftwareLogBook SPEC v0.2
 
 ## 1. Purpose
 Define a minimal, portable and diff-friendly standard to document:
@@ -6,18 +6,22 @@ Define a minimal, portable and diff-friendly standard to document:
 - deployments/instances per tool (PCs, machines, VMs, containers, embedded)
 - lifecycle events as append-only logbook entries
 
+## 1.1 Positioning
+SoftwareLogBook is a lightweight, human-readable logbook. It complements, but does not replace, operational systems.
+
+## 1.2 Non-goals
+- Not a CMDB or ITSM system.
+- Not an authoritative source of truth for asset inventory.
+- Not a ticketing or workflow system.
+
 ## 2. Repository layout
 
-software//
-software.md
-deployments/.md
-entries/.md
-
-_global/
-entries/*.md
-
-taxonomy/.md
-templates/.md
+- `software/<softwareKey>/software.md`
+- `software/<softwareKey>/deployments/*.md`
+- `software/<softwareKey>/entries/<YYYY>/*.md`
+- `_global/entries/<YYYY>/*.md`
+- `taxonomy/*.md`
+- `templates/*.md`
 
 ### 2.1 `softwareKey`
 - lowercase
@@ -26,7 +30,7 @@ templates/.md
 Examples: `conapp-core-server`, `hr-reporting`, `vendor-plc-suite`
 
 ### 2.2 One entry = one file
-Each event gets its own file under `entries/`.
+Each event gets its own file under `entries/<YYYY>/`.
 This minimizes merge conflicts and keeps history readable.
 
 ## 3. File format: Frontmatter + Markdown body
@@ -34,6 +38,16 @@ All domain files (`software.md`, deployments, entries) use:
 
 - YAML frontmatter between `---` lines
 - Markdown body after frontmatter
+
+## 3.1 ID uniqueness (repo-wide)
+All `id` values MUST be unique across the repository (software, deployments, entries).
+UUID/ULID values for software and deployments implicitly satisfy this requirement.
+Recommended convention for entries:
+`<scopeKey>::<timestamp>_<type>_<slug>`
+
+- `<scopeKey>`: `softwareKey` for software-scoped entries, or `global` for `_global/entries/` (prefix convention: `<softwareKey>::` or `global::`).
+- Example: `example-tool::2025-12-19T03-12-00Z_incident_tcp-timeouts`
+- Recommended regex (entries): `^[a-z0-9-]+::[A-Za-z0-9_.:-]+$`
 
 ## 4. Domain objects
 
@@ -77,7 +91,7 @@ Optional:
 - `references`: list of Reference
 - `tags`: list
 
-### 4.3 Entry (`software/<softwareKey>/entries/*.md` or `_global/entries/*.md`)
+### 4.3 Entry (`software/<softwareKey>/entries/<YYYY>/*.md` or `_global/entries/<YYYY>/*.md`)
 Required:
 - `id`: stable entry id
 - `type`: see `taxonomy/entry-types.md`
@@ -93,23 +107,26 @@ Optional:
 - `versionFrom`, `versionTo`
 - `labels`: list of strings
 - `references`: list of Reference
-- `correctionForId`: id of entry being corrected (append-only correction)
+- `correctionForId`: id of entry being corrected (required when `type: correction`)
 - `supersedesId`: id of entry being superseded
 - `changeReason`: string
 
 Rules:
 - An entry MUST relate to either:
   - `softwareKey` (software-scoped), or
-  - be in `_global/entries/` (global policy/event), optionally with `softwareKey`.
+  - be in `_global/entries/<YYYY>/` (global policy/event), optionally with `softwareKey`.
 - If `deploymentKey` is set, `softwareKey` SHOULD be set as well.
+- If `type: correction`, `correctionForId` MUST be set and MUST reference an existing entry. Corrections exist to fix or clarify errors.
+- `supersedesId` indicates that the current entry replaces the referenced entry in presentation or decision-making. The superseded entry remains part of the append-only history and is not considered incorrect.
+- Entry files are stored under a year folder based on `occurredAt` (fallback: `recordedAt`).
 
 ### 4.4 Reference object
 
 type: repo|docs|ticket|vendor|cve|release|build|other
 label: string
-url: string (URL/URI)
-externalId: string (optional)
-note: string (optional)
+url: string (URL/URI, optional)
+externalId: string (optional, for air-gapped environments)
+note: string (optional, for air-gapped environments)
 
 See `taxonomy/reference-types.md`.
 
@@ -139,5 +156,5 @@ Example: `prod-werk1-linie2-m7`
 - Prefer internal identifiers over personal data.
 
 ## 8. Compatibility
-- This SPEC is versioned as `v0.1`.
+- This SPEC is versioned as `v0.2`.
 - Future versions must remain backward readable.

@@ -1,5 +1,5 @@
 ---
-id: "2025-12-20T09-00-00Z_correction_tcp-timeouts"
+id: "example-tool::2025-12-20T09-00-00Z_correction_tcp-timeouts"
 type: correction
 severity: info
 occurredAt: "2025-12-20T09:00:00Z"
@@ -10,7 +10,7 @@ deploymentKey: "prod-werk1-linie2-m7"
 labels: ["correction"]
 references: []
 createdBy: "admin"
-correctionForId: "2025-12-19T03-12-00Z_incident_tcp-timeouts"
+correctionForId: "example-tool::2025-12-19T03-12-00Z_incident_tcp-timeouts"
 changeReason: "Additional evidence from switch audit log"
 ---
 ## Correction

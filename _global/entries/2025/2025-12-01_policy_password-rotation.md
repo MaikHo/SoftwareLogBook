@@ -1,5 +1,5 @@
 ---
-id: "2025-12-01T12-00-00Z_policy_password-rotation"
+id: "global::2025-12-01T12-00-00Z_policy_password-rotation"
 type: maintenance
 severity: info
 occurredAt: "2025-12-01T12:00:00Z"
